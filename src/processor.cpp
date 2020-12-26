@@ -4,8 +4,7 @@
 #include <iostream>
 #include <sstream>
 // TODO: Return the aggregate CPU utilization
-float Processor::Utilization() { 
-    int Total_process ;
+float Processor::Utilization() { // keep in mind of precision b/t float and double 
   std::string line;
   std::ifstream stream(LinuxParser::kProcDirectory + LinuxParser::kStatFilename);
   if (stream.is_open()){

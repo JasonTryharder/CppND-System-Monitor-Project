@@ -201,8 +201,8 @@ string LinuxParser::Ram(int pid[[maybe_unused]])
       std::replace(line.begin(), line.end(), ':', ' ');
       std::istringstream linestream(line);
       while (linestream >> key >> ramValue) {
-        if (key == "VmSize") {
-          return ramValue;
+        if (key == "VmData") {
+          return ramValue; // using KeyWork VmData over VmSize since Former reflect virtual memory, later reflect physical memory
         }
       }
     }
@@ -272,7 +272,11 @@ long LinuxParser::UpTime(int pid) { std::string line, value;
         linestream >> value;
         if (i==kStarttime_) {
           try {
-            time = std::stol(value) / sysconf(_SC_CLK_TCK);
+            time = UpTime() - std::stol(value) / sysconf(_SC_CLK_TCK);
+            //The time the process started after system boot.  In kernels before Linux 2.6, this value was expressed
+            //in jiffies.  Since Linux 2.6, the value is expressed in clock ticks (divide by sysconf(_SC_CLK_TCK)).
+            //The format for this field was %lu before Linux 2.6.That means in order to get the unit of time it has been running since start 
+            //you need to subtract it from the UpTime() of the system
             return time;
           } catch (const std::invalid_argument& arg) {
             return 0;

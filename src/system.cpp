@@ -9,10 +9,11 @@
 #include "system.h"
 #include "linux_parser.h"
 
-using std::set;
-using std::size_t;
-using std::string;
-using std::vector;
+// using std::set;
+// using std::size_t;
+// using std::string;
+// using std::vector;
+using namespace std;
 
 // TODO: Return the system's CPU
 Processor& System::Cpu() { return cpu_;}
@@ -23,10 +24,10 @@ vector<Process>& System::Processes() {
     std::vector<Process> processes{};
     for (int i : pids)
     {
-        Process process{i};
-        // string u = LinuxParser::Uid(i);
-        // process.User();
-        processes.emplace_back(process);
+        // Process process{i};
+        processes.emplace_back(i);//since process's constructor has been defined to take 'i' as arg, so in emplace_back it gets called
+        //push_back constructs a temporary object which then will need to get moved into the vector v whereas emplace_back just forwards the argument 
+        //and construct it directly in place with no copies or moves needed.In short, it is a good habit if you are using emplace_back instead of push_back
     }
     sort(processes.begin(), processes.end(), [](Process& processA, Process& processB) {return (processB.CpuUtilization() < processA.CpuUtilization());});
     return processes_ = processes; }

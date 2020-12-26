@@ -30,7 +30,10 @@ int Process::Pid() {
 float Process::CpuUtilization(){ return _cpu; }
 
 // TODO: Return the command that generated this process
-string Process::Command() { return LinuxParser::Command(Pid()); }
+string Process::Command() {  
+    if (LinuxParser::Command(Pid()).size() > 40) {return LinuxParser::Command(Pid()).substr(1,40).append("...");}
+    else {return LinuxParser::Command(Pid());}
+}
 
 // TODO: Return this process's memory utilization
 string Process::Ram() { return _ram; }
