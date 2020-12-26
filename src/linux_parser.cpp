@@ -72,7 +72,7 @@ vector<int> LinuxParser::Pids() {
 float LinuxParser::MemoryUtilization() { 
   // std::cout<< "I am here \n";
   string Title, Num, KB;
-  float MemTotal, MemFree, MemAval, Buffers, MemUsed;
+  float MemTotal, MemFree, MemUsed;  //MemAval, Buffers,
   string line;
   std::ifstream stream(kProcDirectory + kMeminfoFilename);
   if (stream.is_open()){
@@ -82,8 +82,8 @@ float LinuxParser::MemoryUtilization() {
       while (linestream>>Title>>Num>>KB){
         if (Title == "MemTotal"){MemTotal = std::stof(Num);}
         else if (Title == "MemFree"){MemFree = std::stof(Num);}
-        else if (Title == "MemAvailable"){MemAval = std::stof(Num);}
-        else if (Title == "Buffers"){Buffers = std::stof(Num);}
+        // else if (Title == "MemAvailable"){MemAval = std::stof(Num);}
+        // else if (Title == "Buffers"){Buffers = std::stof(Num);}
 
       }
     }
@@ -113,7 +113,7 @@ long LinuxParser::Jiffies() { return 0; }
 
 // TODO: Read and return the number of active jiffies for a PID
 // REMOVE: [[maybe_unused]] once you define the function
-long LinuxParser::ActiveJiffies(int pid[[maybe_unused]]) { return 0; }
+// long LinuxParser::ActiveJiffies(int pid[[maybe_unused]]) { return 0; }
 
 // TODO: Read and return the number of active jiffies for the system
 long LinuxParser::ActiveJiffies() { return 0; }
@@ -190,7 +190,7 @@ string LinuxParser::Command(int pid) {
 
 // TODO: Read and return the memory used by a process
 // REMOVE: [[maybe_unused]] once you define the function
-string LinuxParser::Ram(int pid[[maybe_unused]]) 
+string LinuxParser::Ram(int pid) 
 { 
   std::string line, key;
   std::string ramValue = "";
